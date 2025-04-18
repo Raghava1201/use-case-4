@@ -64,7 +64,6 @@ jobs:
           ref: ${{ github.head_ref }} # Checkout the specific branch for PRs
 
       - name: Configure AWS Credentials (OIDC)
-        if: ${{ secrets.AWS_REGION != '' && secrets.AWS_ROLE_ARN != '' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
@@ -185,7 +184,6 @@ jobs:
           terraform_version: ">= 1.11.4"
 
       - name: Configure AWS Credentials (OIDC)
-        if: ${{ secrets.AWS_REGION != '' && secrets.AWS_ROLE_ARN != '' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
