@@ -29,7 +29,7 @@ jobs:
           tflint_version: "v0.56.0"
       - name: Run TFlint
         id: tflint
-        run: tflint -f compact --report=tflint_report.txt
+        run: tflint -f compact --out=tflint_report.txt
       - name: Upload TFlint Report
         uses: actions/upload-artifact@v4
         with:
@@ -96,7 +96,7 @@ jobs:
           echo "Terraform Plan failed:"
           echo "${{ steps.plan.outputs.stdout }}"
       - name: Terraform Docs
-        uses: terraform-docs/gh-action@v0.20.0
+        uses: terraform-docs/gh-actions@v1.4.0
         with:
           args: --config .terraform-docs.yml .
         env:
