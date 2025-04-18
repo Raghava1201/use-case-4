@@ -39,6 +39,22 @@ jobs:
           path: tflint_report.txt
           retention-days: 1
 
+      - name: Checkov
+        uses: bridgecrewio/checkov-action@v12.1347.0
+        id: checkov
+        with:
+          directory: .
+          framework: terraform
+          soft_fail: true # Allow the workflow to continue even if Checkov finds issues
+          output_format: sarif
+          output_path: checkov_report.sarif
+      - name: List Files
+        run: ls -al # List files to confirm the presence of checkov_report.sarif
+      - name: Upload Checkov Report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: checkov_report.sarif
+
   plan_and_docs:
     name: Plan and Generate Docs
     runs-on: ubuntu-latest
@@ -105,6 +121,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }} # Checkout the specific branch for PRs
           fetch-depth: 0 # Required to create a new branch
+
       - name: Create Report Branch
         id: create_branch
         run: |
@@ -116,6 +133,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: tflint-report-${{ github.run_id }}
+          path: reports
+
+      - name: Download Checkov Report (SARIF)
+        uses: actions/download-artifact@v3
+        with:
+          name: checkov-report-${{ github.run_id }} # The default artifact name for SARIF upload
           path: reports
 
       - name: Download Terraform Plan
