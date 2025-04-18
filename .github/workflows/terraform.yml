@@ -99,7 +99,7 @@ jobs:
       - name: Terraform Docs
         uses: terraform-docs/gh-actions@v1.4.1
         with:
-          args: --config .terraform-docs.yml .
+          args: markdown . # Generate markdown documentation
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Terraform Docs Artifact
