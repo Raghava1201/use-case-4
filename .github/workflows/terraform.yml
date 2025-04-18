@@ -65,6 +65,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }} # Checkout the specific branch for PRs
+
       - name: Configure AWS Credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
